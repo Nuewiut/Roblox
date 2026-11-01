@@ -1,0 +1,213 @@
+-- EDU HUB : Stand Upright Rebooted (Optimized & Specific Roll Slots)
+local u1 = loadstring(game:HttpGet('https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua'))()
+local v2 = loadstring(game:HttpGet('https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua'))()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua'))()
+
+local u3 = u1:CreateWindow({ Title = 'EDU HUB : Stand Upright Rebooted', SubTitle = 'v3.0', TabWidth = 140, Size = UDim2.fromOffset(490, 390), Acrylic = true, Theme = 'Dark', MinimizeKey = Enum.KeyCode.RightControl })
+local v4 = { FarmingQuests = u3:AddTab({ Title = 'Farming & Quests', Icon = 'sword' }), AutoFarmLevels = u3:AddTab({ Title = 'Auto Farm', Icon = 'binary' }), BossFarm = u3:AddTab({ Title = 'Boss Farm', Icon = 'skull' }), StandFarm = u3:AddTab({ Title = 'Stand Farm', Icon = 'apple' }), AutoBuy = u3:AddTab({ Title = 'Shop', Icon = 'shopping-cart' }), DungeonFarm = u3:AddTab({ Title = 'Dungeon Farm', Icon = 'swords' }), ItemFarm = u3:AddTab({ Title = 'Items Farm', Icon = 'box' }), Settings = u3:AddTab({ Title = 'Settings', Icon = 'server-cog' }) }
+local _Options, _LocalPlayer, _RunService, _Workspace, _ReplicatedStorage, _MarketplaceService = u1.Options, game:GetService('Players').LocalPlayer, game:GetService('RunService'), game:GetService('Workspace'), game:GetService('ReplicatedStorage'), game:GetService('MarketplaceService')
+
+local function u12(part, cf) if part and part:IsA('BasePart') then pcall(function() part.CFrame = cf part.Velocity = Vector3.new(0, 0, 0) end) end end
+local function u14() local char = _LocalPlayer.Character or _LocalPlayer.CharacterAdded:Wait() return (char:WaitForChild('HumanoidRootPart', 3) and char:WaitForChild('Humanoid', 3)) and char or nil end
+
+local v15 = u14()
+if v15 then
+    local hrp, origCF = v15.HumanoidRootPart, v15.HumanoidRootPart.CFrame
+    for _, cf in ipairs({ CFrame.new(28150.3, 35.9, -269.2), CFrame.new(111.5, 67.8, -504.7), CFrame.new(12004.6, -3.5, -4455.7), CFrame.new(-5186.3, -450.8, -3802.8), origCF }) do u12(hrp, cf) task.wait(0.2) end
+
+    local u18, u19, u20 = false, -8, 0
+    local function u23(rem, val) return pcall(function() if val == nil then rem:FireServer() else rem:FireServer(val) end end) end
+
+    local function u30(char)
+        if char and char:FindFirstChild('StandEvents') then
+            local m1 = char.StandEvents:FindFirstChild('M1')
+            if m1 and not _LocalPlayer.PlayerGui.CDgui.fortnite:FindFirstChild('Punch') then u23(m1, true) task.wait(0.05) end
+            for _, v in pairs(char.StandEvents:GetChildren()) do
+                if v:IsA('RemoteEvent') and v.Name ~= 'M1' and not table.find({'Block','Quote','Pose','Summon','Heal','Jump','TogglePilot'}, v.Name) then u23(v, true) task.wait(0.05) end
+            end
+        end
+    end
+
+    local function u38(char, skills)
+        if char and char:FindFirstChild('StandEvents') and skills then
+            if skills.M1 and char.StandEvents:FindFirstChild('M1') and not _LocalPlayer.PlayerGui.CDgui.fortnite:FindFirstChild('Punch') then u23(char.StandEvents.M1, true) end
+            for name, active in pairs(skills) do if active and name ~= 'M1' then local ev = char.StandEvents:FindFirstChild(name) if ev then u23(ev, true) end end end
+        end
+    end
+
+    local function u45()
+        local char, list = u14(), {'None'}
+        if char and char:FindFirstChild('StandEvents') then
+            for _, v in pairs(char.StandEvents:GetChildren()) do
+                if v:IsA('RemoteEvent') and not table.find({'Block','Quote','Pose','Summon','Heal','Jump','TogglePilot'}, v.Name) then table.insert(list, v.Name) end
+            end
+        end
+        return list
+    end
+
+    local u46, u47 = false, nil
+    local u48 = {
+        ['Bad Gi [Lvl. 1+]'] = { npcName = 'Giorno', range = 8, loadCFrame = CFrame.new(-700.5, 70.0, -837.7), 'Bad Gi' },
+        ['Scary Monster [Lvl. 10+]'] = { npcName = 'Scared Noob', range = 8, loadCFrame = CFrame.new(-691.0, 73.0, -1062.3), 'Scary Monster' },
+        ['Giorno Giovanna [Lvl. 20+]'] = { npcName = 'Koichi', range = 8, loadCFrame = CFrame.new(-195.5, 69.9, -534.9), 'Giorno Giovanna' },
+        ['Rker Dummy [Lvl. 30+]'] = { npcName = 'aLLmemester', range = 8, loadCFrame = CFrame.new(-624.5, 69.9, -472.3), 'Rker Dummy' },
+        ['Yoshikage Kira [Lvl. 40+]'] = { npcName = 'Okayasu', range = 8, loadCFrame = CFrame.new(-534.2, 70.0, -1039.8), 'Yoshikage Kira' },
+        ['Dio Over Heaven [Lvl. 50+]'] = { npcName = 'Joseph Joestar', range = 10, loadCFrame = CFrame.new(33.1, 97.1, -884.4), 'Dio Over Heaven' },
+        ['Angelo [Lvl. 75+]'] = { npcName = 'Josuke', range = 10, loadCFrame = CFrame.new(-589.6, 72.4, -651.5), 'Angelo' },
+        ['Alien [Lvl. 100+]'] = { npcName = 'Rohan', range = 10, loadCFrame = CFrame.new(-206.2, 73.0, -712.6), 'Alien' },
+        ['Jotaro Part 4 [Lvl. 125+]'] = { npcName = 'DIO', range = 10, loadCFrame = CFrame.new(-384.6, 69.9, -73.7), 'Jotaro Part 4' },
+        ['Kakyoin [Lvl. 150+]'] = { npcName = 'Muhammed Avdol', range = 10, loadCFrame = CFrame.new(-240.2, 69.9, -166.3), 'Kakyoin' },
+        ['Jungle Bandit [Lvl. 175+]'] = { npcName = 'Giorno', range = 12, loadCFrame = CFrame.new(-504.6, 69.9, 13.2), 'Jungle Bandit' },
+        ['Sewer Vampire [Lvl. 200+]'] = { npcName = 'Zeppeli', range = 12, loadCFrame = CFrame.new(-5235.7, -447.7, -3740.5), 'Sewer Vampire' },
+        ['Pillerman [Lvl. 275+]'] = { npcName = 'Young Joseph', range = 12, loadCFrame = CFrame.new(-698.3, 69.6, -129.3), 'Pillerman' },
+    }
+
+    local function u55(q) for _, v in ipairs(_Workspace.Map.NPCs:GetChildren()) do if v.Name == 'Giorno' and v:FindFirstChild('Head') and v.Head:FindFirstChild('Main') and v.Head.Main:FindFirstChild('Text') then local t = v.Head.Main.Text.Text if (q == 'Bad Gi [Lvl. 1+]' and t == 'Giorno Giovanna [Lvl. 1+]') or (q == 'Jungle Bandit [Lvl. 175+]' and t == 'Giorno Giovanna [Lvl. 175+]') then return v end end end return nil end
+    local function u61(name) for _, v in pairs(_Workspace.Living:GetChildren()) do if v.Name == name and v:FindFirstChild('Humanoid') and v.Humanoid.Health > 0 then return v end end return nil end
+    local function u69(target, range)
+        local char = u14()
+        if char and target and target.PrimaryPart then
+            local hrp, tarPP, st = char:FindFirstChild('HumanoidRootPart'), target.PrimaryPart, char:FindFirstChild('Stand')
+            if st then st = char.Stand:FindFirstChild('HumanoidRootPart') end
+            if hrp and tarPP then pcall(function() local cf = tarPP.CFrame * CFrame.new(0, range + u19, u20) * CFrame.Angles(math.rad(-90), 0, 0) hrp.CFrame = cf hrp.Velocity = Vector3.new(0,0,0) if st then st.CFrame = cf st.Velocity = Vector3.new(0,0,0) end end) end
+        end
+    end
+
+    local function u85()
+        if u47 then u47:Disconnect() end
+        local loaded, lastTick = false, 0
+        u47 = _RunService.Heartbeat:Connect(function()
+            if not u46 then u47:Disconnect() return end
+            local char = u14() if not char then return end
+            local sel = _Options.SelectQuest.Value if not (sel and u48[sel]) then return end
+            local qData = u48[sel]
+            if not loaded then u12(char.HumanoidRootPart, qData.loadCFrame) loaded = true end
+            local now = tick()
+            if 0.2 <= now - lastTick then
+                if sel == 'Bad Gi [Lvl. 1+]' or sel == 'Jungle Bandit [Lvl. 175+]' then local npc = u55(sel) if npc then u23(npc.Done) u23(npc.QuestDone) end
+                else for _, v in ipairs(_Workspace.Map.NPCs:GetChildren()) do if v.Name == qData.npcName then u23(v.Done) u23(v.QuestDone) break end end end
+                lastTick = now
+            end
+            local mob = u61(qData[1])
+            if mob then u69(mob, qData.range) if char:FindFirstChild('Aura') and not char.Aura.Value then u23(char.StandEvents.Summon) end local sk = _Options.SelectedSkills and _Options.SelectedSkills.Value or {} if next(sk) then u38(char, sk) elseif u18 then u30(char) end
+            else char.Humanoid.Sit = false u12(char.HumanoidRootPart, char.HumanoidRootPart.CFrame + Vector3.new(0, 100, 0)) task.wait(0.3) end
+        end)
+    end
+
+    v4.FarmingQuests:AddDropdown('SelectQuest', { Title = 'Select Quest', Values = {'Bad Gi [Lvl. 1+]','Scary Monster [Lvl. 10+]','Giorno Giovanna [Lvl. 20+]','Rker Dummy [Lvl. 30+]','Yoshikage Kira [Lvl. 40+]','Dio Over Heaven [Lvl. 50+]','Angelo [Lvl. 75+]','Alien [Lvl. 100+]','Jotaro Part 4 [Lvl. 125+]','Kakyoin [Lvl. 150+]','Jungle Bandit [Lvl. 175+]','Sewer Vampire [Lvl. 200+]','Pillerman [Lvl. 275+]'}, Multi = false, Default = 'Bad Gi [Lvl. 1+]' })
+    v4.FarmingQuests:AddToggle('AutoFarm', { Title = 'Auto Farm & Quests', Default = false })
+    _Options.AutoFarm:OnChanged(function() u46 = _Options.AutoFarm.Value if u46 then if isLevelFarming then u1:Notify({ Title = 'Error', Content = 'Please disable Auto Farm All Levels first!', Duration = 5 }) u46 = false _Options.AutoFarm:SetValue(false) return end task.spawn(u85) end end)
+
+    local u178 = { ['King Crimson']='KingCrimson', ['Crazy Diamond']='CrazyDiamond', ['Hierophant Green']='HG', ['Silver Chariot']='SilverChariot', ['The World']='TheWorld', ["Dio's The World"]='DTW', ['Star Platinum']='StarPlatinum', ['Killer Queen']='KillerQueen', ['Dirty Deeds Done Dirt Cheap']='D4C', ['White Snake']='WhiteSnake', ['Golden Experience']='GE', ['Tusk Act1']='TA1', ['The Hand']='TheHand', Cream='Cream', ['Diver Down']='DiverDown', ["Jotaro's Star Platinum"]='JotarosStarPlatinum', ["Magician's Red"]='MR', ['Sticky Fingers']='StickyFingers', ['Premier Macho']='PM', ['Putrid Whine']='PutridWhine', ['Silver Chariot OVA']='SCOVA', ['Star Platinum OVA']='StarPlatinumOVA', ['The World OVA']='TWOVA', ['Stone Free']='StoneFree', ['The World Alternate Universe']='TWAU', ['Soft And Wet']='SoftAndWet' }
+    local u179, u180 = {}, {}
+    local u180_slots = { Slot1 = { Stand = "None", Attri = "None" }, Slot2 = { Stand = "None", Attri = "None" }, Slot3 = { Stand = "None", Attri = "None" } }
+    local u181, u182, u183 = 'Stand Arrow', 'None', false
+
+    local function u190(t, c, d) u1:Notify({ Title = t, Content = c, Duration = d or 5 }) end
+    local function u197(item, char)
+        local bpItem = _LocalPlayer.Backpack:FindFirstChild(item)
+        if char:FindFirstChild(item) then char.Humanoid:UnequipTools() task.wait(0.1) end
+        if not bpItem then return false end
+        char.Humanoid:EquipTool(bpItem) task.wait(0.1)
+        if not char:FindFirstChild(item) then return false end
+        char[item]:Activate() u23(_ReplicatedStorage.Events.UseItem)
+        local prompt = char[item]:FindFirstChildOfClass('ProximityPrompt')
+        if prompt then fireproximityprompt(prompt, 1) end
+        task.wait(0.5) return true
+    end
+
+    local function u206()
+        local curStand = _LocalPlayer.Data and (_LocalPlayer.Data.Stand and _LocalPlayer.Data.Stand.Value) or 'None'
+        local curAttri = tostring(_LocalPlayer.Data and (_LocalPlayer.Data.Attri and _LocalPlayer.Data.Attri.Value) or 'None')
+        local matchStand, matchAttri = table.find(u179, curStand), table.find(u180, curAttri)
+
+        if u182 == 'StandCheck' then return matchStand
+        elseif u182 == 'AttributeCheck' then return matchAttri
+        elseif u182 == 'StandOrAttriCheck' then return matchStand or matchAttri
+        elseif u182 == 'StandAndAttriCheck' then return matchStand and matchAttri
+        elseif u182 == 'SpecificSlotCheck' then
+            for _, slot in pairs(u180_slots) do
+                local tStand = u178[slot.Stand] or slot.Stand
+                if tStand ~= "None" and slot.Attri ~= "None" and curStand == tStand and curAttri == slot.Attri then return true end
+            end
+            return false
+        end
+        return false
+    end
+
+    local function u224()
+        local char = u14() if not char then return false, 'no_character' end
+        local curStand = _LocalPlayer.Data and (_LocalPlayer.Data.Stand and _LocalPlayer.Data.Stand.Value) or 'None'
+        if not u206() then
+            if curStand == 'None' then
+                if not u197(u181, char) then return false, 'no_item' end
+                local timeout = tick() + 5 while tick() < timeout and (_LocalPlayer.Data.Stand.Value == 'None' and u183) do task.wait(0.1) end
+                return true, 'used_item'
+            else
+                if not u197('Rokakaka', char) then return false, 'no_rokakaka' end
+                local timeout = tick() + 5 while tick() < timeout and (_LocalPlayer.Data.Stand.Value ~= 'None' and u183) do task.wait(0.1) end
+                return true, 'used_rokakaka'
+            end
+        end
+        local lvl = _LocalPlayer.Data and (_LocalPlayer.Data.Level and _LocalPlayer.Data.Level.Value) or 1
+        local slots = {1, 2, 4, 3, 5}
+        for _, sNum in ipairs(slots) do
+            local sVal = _LocalPlayer.Data['Slot' .. sNum .. 'Stand']
+            if sVal and sVal.Value == 'None' then
+                u23(_ReplicatedStorage.Events.SwitchStand, 'Slot' .. sNum)
+                local timeout = tick() + 5 while tick() < timeout and (_LocalPlayer.Data.Stand.Value ~= 'None' and u183) do task.wait(0.1) end
+                if _LocalPlayer.Data.Stand.Value == 'None' then u190('Info', 'Stored in Slot ' .. sNum, 3) return true, 'stored' end
+                break
+            end
+        end
+        return false, 'no_slots'
+    end
+
+    local standList = {'None','King Crimson','Crazy Diamond','Hierophant Green','Silver Chariot','The World',"Dio's The World",'Star Platinum','Killer Queen','Dirty Deeds Done Dirt Cheap','White Snake','Golden Experience','Tusk Act1','The Hand','Cream','Diver Down',"Jotaro's Star Platinum","Magician's Red",'Sticky Fingers','Premier Macho','Putrid Whine','Silver Chariot OVA','Star Platinum OVA','The World OVA','Stone Free','The World Alternate Universe','Soft And Wet'}
+    local attriList = {'None','Strong','Tough','Sloppy','Powerful','Manic','Enrage','Lethargic','Godly','Daemon','Invincible','Tragic','Scourge','GlassCannon','Hacker','Legendary'}
+
+    v4.StandFarm:AddDropdown('SelectStands', { Title = 'Stands (General)', Icon = 'star', Values = standList, Multi = true, Default = {} })
+    _Options.SelectStands:OnChanged(function(val) u179 = {} for k, v in pairs(val) do if v and u178[k] then table.insert(u179, u178[k]) end end end)
+    v4.StandFarm:AddDropdown('SelectAttributes', { Title = 'Attributes (General)', Icon = 'award', Values = attriList, Multi = true, Default = {} })
+    _Options.SelectAttributes:OnChanged(function(val) u180 = {} for k, v in pairs(val) do if v then table.insert(u180, k) end end end)
+
+    v4.StandFarm:AddDropdown('SpecificStand1', { Title = 'Specific Stand 1', Values = standList, Default = 'None' })
+    _Options.SpecificStand1:OnChanged(function(val) u180_slots.Slot1.Stand = val end)
+    v4.StandFarm:AddDropdown('SpecificAttribute1', { Title = 'Specific Attribute 1', Values = attriList, Default = 'None' })
+    _Options.SpecificAttribute1:OnChanged(function(val) u180_slots.Slot1.Attri = val end)
+    v4.StandFarm:AddDropdown('SpecificStand2', { Title = 'Specific Stand 2', Values = standList, Default = 'None' })
+    _Options.SpecificStand2:OnChanged(function(val) u180_slots.Slot2.Stand = val end)
+    v4.StandFarm:AddDropdown('SpecificAttribute2', { Title = 'Specific Attribute 2', Values = attriList, Default = 'None' })
+    _Options.SpecificAttribute2:OnChanged(function(val) u180_slots.Slot2.Attri = val end)
+
+    v4.StandFarm:AddDropdown('SelectItem', { Title = 'Item to Use', Icon = 'tool', Values = {'Stand Arrow', 'Charged Arrow', 'Kars Mask'}, Default = 1 })
+    _Options.SelectItem:OnChanged(function(val) u181 = val end)
+    v4.StandFarm:AddDropdown('SelectCondition', { Title = 'Condition', Icon = 'check', Values = {'None', 'StandCheck', 'AttributeCheck', 'StandOrAttriCheck', 'StandAndAttriCheck', 'SpecificSlotCheck'}, Default = 1 })
+    _Options.SelectCondition:OnChanged(function(val) u182 = val end)
+
+    v4.StandFarm:AddToggle('StartStandFarm', { Title = 'Start Farm', Icon = 'play', Default = false })
+    _Options.StartStandFarm:OnChanged(function()
+        u183 = _Options.StartStandFarm.Value
+        if u183 then
+            if u182 == 'None' then u190('Error', 'Select a condition first!', 5) u183 = false _Options.StartStandFarm:SetValue(false) return end
+            u190('Info', 'Stand Farm Started!', 3)
+            task.spawn(function()
+                while u183 do
+                    local ok, err = u224()
+                    if not ok then
+                        if err == 'no_item' then u190('Warning', 'Out of ' .. u181 .. '!', 5) while not _LocalPlayer.Backpack:FindFirstChild(u181) and u183 do task.wait(1) end
+                        elseif err == 'no_rokakaka' then u190('Warning', 'Out of Rokakaka!', 5) while not _LocalPlayer.Backpack:FindFirstChild('Rokakaka') and u183 do task.wait(1) end
+                        elseif err == 'no_slots' then u190('Warning', 'No empty slots!', 5) u183 = false _Options.StartStandFarm:SetValue(false) break end
+                    end
+                    task.wait(0.1)
+                end
+                u190('Info', 'Stand Farm Stopped!', 3)
+            end)
+        end
+    end)
+    v4.StandFarm:AddButton({ Title = 'Open Storage', Icon = 'archive', Callback = function() u23(_Workspace.Map.NPCs.admpn.Done) end })
+
+    u3:SelectTab(1)
+    u1:Notify({ Title = 'EDU HUB', Content = 'Loaded successfully.', Duration = 5 })
+    v2:LoadAutoloadConfig()
+end                                       
